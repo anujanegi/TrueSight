@@ -8,8 +8,7 @@ import time
 import cv2
 import datetime
 
-class detect_object:
-	def __init__(self, prototxt, model, confidence):
+def detect_object(prototxt, model, confidence):
 		# construct the argument parse and parse the arguments
 
 		# initialize the list of class labels MobileNet SSD was trained to
@@ -36,7 +35,7 @@ class detect_object:
 			# grab the frame from the threaded video stream and resize it
 			# to have a maximum width of 400 pixels
 			frame = vs.read()
-			frame = imutils.resize(frame, width=600)
+			frame = imutils.resize(frame, width=800)
 
 			# grab the frame dimensions and convert it to a blob
 			(h, w) = frame.shape[:2]

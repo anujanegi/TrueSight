@@ -1,3 +1,6 @@
-imutils==0.5.2
-python_opencv==3.4.4
-numpy==1.16.2
+imutils
+python_opencv
+numpy
+torch
+torchvision
+pil
