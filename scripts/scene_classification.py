@@ -5,13 +5,15 @@ from torchvision import transforms as trn
 from torch.nn import functional as F
 import os
 from PIL import Image
+import shutil
 
 # load the pre-trained weights
 arch = 'resnet50'
 model_file = os.path.abspath('./models/%s_places365.pth.tar' % arch)
 # if not os.access(model_file, os.W_OK):
-#     weight_url = 'http://places2.csail.mit.edu/models_places365/' + model_file
+#     weight_url = 'http://places2.csail.mit.edu/models_places365/' + '%s_places365.pth.tar' % arch
 #     os.system('wget ' + weight_url)
+#     shutil.move('%s_places365.pth.tar' % arch, model_file)
 
 model = models.__dict__[arch](num_classes=365)
 checkpoint = torch.load(model_file, map_location=lambda storage, loc: storage)
@@ -30,10 +32,15 @@ centre_crop = trn.Compose([
 
 # load the class label
 file_name = os.path.abspath('./models/categories_places365.txt')
+
 # if not os.access(file_name, os.W_OK):
 #     synset_url = 'https://raw.githubusercontent.com/csailvision/places365/master/categories_places365.txt'
 #     os.system('wget ' + synset_url)
+#     shutil.move('categories_places365.txt', os.path.abspath('./models/categories_places365.txt'))
+
+
 classes = list()
+
 with open(file_name) as class_file:
     for line in class_file:
         classes.append(line.strip().split(' ')[0][3:])
