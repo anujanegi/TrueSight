@@ -1,0 +1,6 @@
+imutils
+python_opencv
+numpy
+torch
+torchvision
+pil
