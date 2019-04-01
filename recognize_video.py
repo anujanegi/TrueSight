@@ -17,13 +17,13 @@ import os
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--detector", required=True,
+ap.add_argument("-d", "--detector", required=False,default = "face_detection_model",
 	help="path to OpenCV's deep learning face detector")
-ap.add_argument("-m", "--embedding-model", required=True,
+ap.add_argument("-m", "--embedding-model", required=False,default = "openface_nn4.small2.v1.t7",
 	help="path to OpenCV's deep learning face embedding model")
-ap.add_argument("-r", "--recognizer", required=True,
+ap.add_argument("-r", "--recognizer", required=False,default = "output\\recognizer.pickle",
 	help="path to model trained to recognize faces")
-ap.add_argument("-l", "--le", required=True,
+ap.add_argument("-l", "--le", required=False,default = "output\le.pickle",
 	help="path to label encoder")
 ap.add_argument("-c", "--confidence", type=float, default=0.5,
 	help="minimum probability to filter weak detections")
@@ -46,7 +46,7 @@ le = pickle.loads(open(args["le"], "rb").read())
 
 # initialize the video stream, then allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream(src=1).start()
+vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
 # start the FPS throughput estimator
@@ -56,7 +56,11 @@ fps = FPS().start()
 while True:
 	# grab the frame from the threaded video stream
 	frame = vs.read()
-
+	# if cv2.waitKey(1) & 0xFF == ord('q'):
+	# 	break
+	# 	cap.release()
+	# 	cv2.destroyAllWindows()
+	
 	# resize the frame to have a width of 600 pixels (while
 	# maintaining the aspect ratio), and then grab the image
 	# dimensions
@@ -126,13 +130,15 @@ while True:
 
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
+		# do a bit of cleanup
+		cv2.destroyAllWindows()
+		vs.stop()
+		fps.stop()
 		break
 
 # stop the timer and display FPS information
-fps.stop()
+
 print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
-# do a bit of cleanup
-cv2.destroyAllWindows()
-vs.stop()
+os._exit("gg")
