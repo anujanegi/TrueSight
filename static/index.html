@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>TrueSight</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script>
+        function fullScreen() {
+            document.getElementById("text_detection").classList.remove("hidden")
+            document.getElementById("scene_detection").classList.remove("hidden")
+            document.getElementById("scene_captioning").classList.remove("hidden")
+            document.getElementById("reset").classList.remove("hidden")
+            document.getElementById("full_screen").classList.add("hidden")
+            document.body.requestFullscreen()
+        }
+
+        function makeXMLRequest(endpoint) {
+            var request = new XMLHttpRequest();
+            request.open("GET", endpoint, true);
+            request.send();
+        }
+
+        function textOnClick() {
+            navigator.vibrate([100,50]);
+            makeXMLRequest('/detect-text')
+        }
+
+        function detectOnClick() {
+            navigator.vibrate([100,50,100]);
+            makeXMLRequest('/detect-scene')
+        }
+
+        function captionOnClick() {
+            navigator.vibrate([150,50,150,50,150]);
+            makeXMLRequest('/caption')
+        }
+
+      function reset() {
+          navigator.vibrate([100,50,100,50,100,50,100,50,100]);
+          makeXMLRequest('/reset')
+      }
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-vertical" style="padding:0px;height:100vh;">
+            <article id="full_screen" class="tile is-child notification is-primary is-center" onclick="fullScreen()" style="height:100vh;">
+                <p class="title">TrueSight</p>
+            </article>
+            <article id="text_detection" class="hidden tile is-child notification is-primary is-center" onclick="textOnClick()" style="height:23vh;">
+                <p class="title">Text Detection</p>
+            </article>
+            <article id="scene_detection" class="hidden tile is-child notification is-error is-center" onclick="detectOnClick()" style="height:23vh;">
+              <p class="title">Scene Detection</p>
+            </article>
+            <article id="scene_captioning" class="hidden tile is-child notification is-warning is-center" onclick="captionOnClick()" style="height:23vh;">
+              <p class="title">Scene Captioning</p>
+            </article>
+            <article id="reset" class="hidden tile is-child notification is-warning is-center" onclick="reset()" style="height:23vh;">
+              <p class="title">reset</p>
+            </article>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>

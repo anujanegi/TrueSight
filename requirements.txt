@@ -1,0 +1,9 @@
+imutils==0.5.2
+torch==0.4.1
+Flask==0.12.2
+opencv_python==4.0.0.21
+numpy==1.16.2
+Pillow==6.0.0
+protobuf==3.7.1
+inflect==2.1.0
+torchvision==0.2.2.post3
